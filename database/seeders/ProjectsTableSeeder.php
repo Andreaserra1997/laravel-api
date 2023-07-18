@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Type;
 use App\Models\Project;
 use App\Models\Technology;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,14 +25,16 @@ class ProjectsTableSeeder extends Seeder
         for($i = 0; $i < 50; $i++) {
             $name = $faker->words(rand(2, 10), true);
             $slug = Project::slugger($name);
+            $imageIndex = rand(0, 10);
 
             $project = Project::create([
             'type_id'               => $faker->randomElement($types)->id,
-            'name'                  => $name,
+            'name'                  => Str::ucfirst($name),
             'slug'                  => $slug,
             'client_name'           => $faker->name(),
             'date'                  => $faker->date(),
             'cover_image'           => 'https://picsum.photos/id/' . rand(1, 270) . '/500/400',
+            'image'                 => $imageIndex ? 'picsum' . $imageIndex . '.jpg' : null,
             'summary'               => $faker->paragraphs(rand(2, 20), true),
             ]);
 

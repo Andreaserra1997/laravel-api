@@ -9,17 +9,35 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::with('type', 'technologies')->paginate(6);
+        $searchString = $request->query('q', '');
 
-        return response()->json($projects);
+        $projects = Project::with('type', 'technologies')->where('name', 'LIKE', "%${searchString}")->paginate(6);
+
+        return response()->json([
+            'success'    => true,
+            'results'    => $projects, 
+        ]);
     }
 
     
     public function show($slug)
     {
-        $project = Project::where('slug', $slug)->firstOrFail();
-        return response()->json($project);
+        $project = Project::where('slug', $slug)->first();
+
+        return response()->json([
+            'success'    => $project ? true : false,
+            'results'    => $project, 
+        ]);
+    }
+
+    public function random() {
+        $projects = Project::inRandomOrder()->limit(9)->get();
+
+        return response()->json([
+            'success'    => true,
+            'results'    => $projects, 
+        ]);
     }
 }
