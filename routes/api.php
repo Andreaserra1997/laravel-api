@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LeadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProjectController;
@@ -24,3 +25,5 @@ Route::get('projects', [ProjectController::class, 'index'])->name('api.projects.
 Route::get('projects/random', [ProjectController::class, 'random'])->name('api.projects.random');
 Route::get('projects/{project}', [ProjectController::class, 'show'])->name('api.projects.show');
 Route::get('technologies', [TechnologyController::class, 'index'])->name('api.technologies.index');
+
+Route::post('leads/', [LeadController::class, 'store'])->name('api.leads.store');
